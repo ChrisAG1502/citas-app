@@ -2,7 +2,6 @@ package azc.uam.app.model.entity;
 
 import azc.uam.app.model.enums.EstadoCita;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 

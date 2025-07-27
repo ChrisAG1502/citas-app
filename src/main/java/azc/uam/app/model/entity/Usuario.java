@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // O JOINED
+@Table(name = "usuarios")
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     protected long id;
 
     @Column(nullable = false, unique = true)

@@ -8,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "profesionistas")
-@PrimaryKeyJoinColumn(name = "usuario_id")
 public class Profesionista extends Usuario {
     @ManyToOne
     @JoinColumn(name = "giro_id", nullable = false)

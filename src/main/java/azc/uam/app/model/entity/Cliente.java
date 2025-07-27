@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "clientes")
-@PrimaryKeyJoinColumn(name = "usuario_id")
 public class Cliente extends Usuario {
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
