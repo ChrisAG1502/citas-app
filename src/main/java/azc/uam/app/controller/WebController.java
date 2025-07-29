@@ -1,18 +1,25 @@
 package azc.uam.app.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Controller
-public class WebController {
+@Configuration
+public class WebController implements WebMvcConfigurer {
 
-    @GetMapping("/")
-    public String index() {
-        return "home";
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("home");
+        registry.addViewController("/home").setViewName("home");
+        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/error").setViewName("error");
+        registry.addViewController("/logout").setViewName("logout");
+        registry.addViewController("/dashboard").setViewName("dashboard");
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 }
