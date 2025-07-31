@@ -1,5 +1,9 @@
 package azc.uam.app.config;
 
+import azc.uam.app.handler.CustomAuthenticationSuccessHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    @Autowired
+    private CustomAuthenticationSuccessHandler successHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -19,23 +26,33 @@ public class WebSecurityConfig {
                                 new AntPathRequestMatcher("/"),
                                 new AntPathRequestMatcher("/home"),
                                 new AntPathRequestMatcher("/login"),
+                                new AntPathRequestMatcher("/register"),
+                                new AntPathRequestMatcher("/successfully"),
                                 new AntPathRequestMatcher("/resources/**")
                         ).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/dashboard/cliente/**")).hasRole("CLIENTE")
+                        .requestMatchers(new AntPathRequestMatcher("/dashboard/profesional/**")).hasRole("PROFESIONAL")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
+                        .usernameParameter("correo")
+                        .passwordParameter("contrasenia")
+                        .successHandler(successHandler)
+                        .failureUrl("/login?error=true")
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")
                         .permitAll()
-                ).csrf(csrf -> csrf.disable());
+                );
 
         return http.build();
     }
 
-    // ... (keep your existing UserDetailsService and PasswordEncoder beans)
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

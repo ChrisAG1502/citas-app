@@ -2,127 +2,60 @@ package azc.uam.app.model.entity;
 
 import azc.uam.app.model.enums.EstadoCita;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "citas")
+@Getter
+@Setter
 public class Cita {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente;
-
-    @ManyToOne
-    @JoinColumn(name = "profesionista_id", nullable = false)
-    private Profesionista profesionista;
-
-    @ManyToOne
-    @JoinColumn(name = "servicio_id", nullable = false)
-    private Servicio servicio;
-
-    @Column(name = "fecha_hora_inicio", nullable = false)
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHoraInicio;
 
-    @Column(name = "fecha_hora_fin", nullable = false)
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHoraFin;
+
+    private int duracionMinutos;
 
     @Enumerated(EnumType.STRING)
     private EstadoCita estado = EstadoCita.PENDIENTE;
 
-    @Column(columnDefinition = "TEXT")
+    private String tipoServicio;
+    private String ubicacion;
+    private String enlaceVirtual;
+
+    @Lob
     private String notas;
 
-    private Integer calificacion;
+    private Integer calificacionCliente;
+    private Integer calificacionProfesional;
 
-    @Column(columnDefinition = "TEXT")
-    private String comentario;
+    @Lob
+    private String comentariosCliente;
 
-    public Cita() {}
+    @Lob
+    private String comentariosProfesional;
 
-    public Long getId() {
-        return id;
+    @Column(updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaCreacion = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaActualizacion;
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.fechaActualizacion = new Date();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Profesionista getProfesionista() {
-        return profesionista;
-    }
-
-    public void setProfesionista(Profesionista profesionista) {
-        this.profesionista = profesionista;
-    }
-
-    public Servicio getServicio() {
-        return servicio;
-    }
-
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
-    }
-
-    public Date getFechaHoraInicio() {
-        return fechaHoraInicio;
-    }
-
-    public void setFechaHoraInicio(Date fechaHoraInicio) {
-        this.fechaHoraInicio = fechaHoraInicio;
-    }
-
-    public Date getFechaHoraFin() {
-        return fechaHoraFin;
-    }
-
-    public void setFechaHoraFin(Date fechaHoraFin) {
-        this.fechaHoraFin = fechaHoraFin;
-    }
-
-    public EstadoCita getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoCita estado) {
-        this.estado = estado;
-    }
-
-    public String getNotas() {
-        return notas;
-    }
-
-    public void setNotas(String notas) {
-        this.notas = notas;
-    }
-
-    public Integer getCalificacion() {
-        return calificacion;
-    }
-
-    public void setCalificacion(Integer calificacion) {
-        this.calificacion = calificacion;
-    }
-
-    public String getComentario() {
-        return comentario;
-    }
-
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
+    public Cita(){}
 }
