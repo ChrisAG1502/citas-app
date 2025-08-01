@@ -225,6 +225,90 @@ html {
     margin-bottom: 1.5rem;
 }
 
+.slider-container {
+    position: relative;
+    padding: 0 40px;
+    /* Espacio para los controles */
+}
+
+.card-slider {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 15px;
+    /* Espacio entre tarjetas */
+    padding: 10px 0;
+}
+
+.slider-card {
+    flex: 0 0 auto;
+    width: 250px;
+    transition: transform 0.3s ease;
+}
+
+
+.slider-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.slider-control:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.slider-control.prev {
+    left: 0;
+}
+
+.slider-control.next {
+    right: 0;
+}
+
+.service-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin: 10px;
+}
+
+.service-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    height: 150px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.card-text{
+    height: 4rem;
+}
+
+
+
+
+
 footer {
     flex-shrink: 0;
 }
@@ -260,14 +344,14 @@ footer {
         display: none !important;
     }
 
-    .navbar-desktop{
+    .navbar-desktop {
         display: none;
     }
 
 }
 
 @media (min-width: 1001px) {
-    .navbar-mobile{
+    .navbar-mobile {
         display: none;
     }
 }
