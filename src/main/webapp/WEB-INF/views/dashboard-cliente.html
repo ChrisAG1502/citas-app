@@ -1,13 +1,217 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
     <title>Dashboard | Citas</title>
 </head>
+
 <body>
-    <h1>Dashboard Cliente</h1>
+<nav class="navbar navbar-expand-lg green-section bg-light">
+    <div class="container">
+        <a href="#" class="navbar-brand">Logo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="fa-solid fa-circle-user text-black fs-1"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <!-- Versión móvil - opciones visibles -->
+            <ul class="navbar-nav me-auto d-lg-none p-0">
+                <li class="nav-item py-0"> <!-- py-0 elimina padding vertical -->
+                    <a class="nav-link fs-5" href="/user-account">Cuenta</a>
+                </li>
+                <li class="nav-item py-0"> <!-- py-0 elimina padding vertical -->
+                    <a class="nav-link fs-5" href="/logout">Cerrar Sesión</a>
+                </li>
+            </ul>
+
+            <!-- Versión escritorio - icono de cuenta con dropdown -->
+            <ul class="navbar-nav ms-auto d-none d-lg-flex">
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-white fs-5" href="#" role="button" data-bs-toggle="dropdown" id="dr">
+                        <i class="fa-solid fa-circle-user text-black fs-2"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/user-account">Cuenta</a></li>
+                        <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--Main Container-->
+<section class="hero bg-light">
+    <div class="container">
+        <div class="mb-4 justify-content-center text-center">
+            <h4 class="text-capitalize fs-3 fs-md-2">
+                <span th:text="${gender}"></span>
+                <span th:text="${customerName}"></span></h4>
+
+            <p class="mb-0 fs-5 fs-md-4">¿Cómo podemos ayudarte hoy?</p>
+        </div>
+        <div class="search-bar">
+            <div class="search-container">
+                <div class="col-md-8 mx-auto">
+                    <div class="form-floating mb-4 mb-md-3">
+                        <input type="text" name="searchService" class="form-control form-control-lg"
+                               placeholder="Buscar Servicio">
+                        <label class="form-label">Buscar Servicios</label>
+                    </div>
+                </div>
+                <div class="categories d-flex flex-wrap justify-content-center pb-5 pb-md-3">
+                    <a href="" class="p-3 p-md-2 m-2 rounded-4 text-decoration-none text-capitalize"><i
+                            class="fa-solid fa-kit-medical"></i> Salud</a>
+                    <a href="" class="p-3 p-md-2 m-2 rounded-4 text-decoration-none text-capitalize"><i
+                            class="fa-solid fa-house"></i> Hogar</a>
+                    <a href="" class="p-3 p-md-2 m-2 rounded-4 text-decoration-none text-capitalize"><i
+                            class="fa-solid fa-helmet-safety"></i> Ferreteria</a>
+                    <a href="" class="p-3 p-md-2 m-2 rounded-4 text-decoration-none text-capitalize"><i
+                            class="fa-solid fa-spa"></i> Cuidado Personal</a>
+                    <a href="" class="p-3 p-md-2 m-2 rounded-4 text-decoration-none text-capitalize"><i
+                            class="fa-solid fa-graduation-cap"></i> Educación</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="highlighted-services bg-light">
+    <div class="container">
+        <div class="mb-4 pt-4">
+            <p class="fs-4 text-capitalize">Servicios Destacados</p>
+            <div class="divider"></div>
+        </div>
+
+        <!-- Contenedor modificado -->
+        <div class="row justify-content-center">
+            <!-- Tarjeta 1 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="service-card bg-white h-100 mx-2">
+                    <div class="position-relative">
+                        <img src="https://img.freepik.com/free-photo/healthcare-workers-preventing-virus-quarantine-campaign-concept-cheerful-friendly-asian-female-physician-doctor-with-clipboard-daily-checkup-standing-white-background_1258-107867.jpg?semt=ais_hybrid&w=740&q=80"
+                             class="card-img-top img-fluid" alt="Enfermera">
+                        <span class="service-category">Salud</span>
+                    </div>
+                    <div class="service-desc p-3">
+                        <h5 class="card-title text-capitalize">Enfermera</h5>
+                        <p class="card-text">Servicio de Enfermera a Domicilio</p>
+                        <p class="price text-capitalize">$500/h</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-muted ms-1">(15)</span>
+                            </div>
+                        </div>
+                        <div class="button pt-2">
+                            <button type="button" class="btn btn-success w-100">Agendar Cita</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 1 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="service-card bg-white h-100 mx-2">
+                    <div class="position-relative">
+                        <img src="https://img.freepik.com/free-photo/healthcare-workers-preventing-virus-quarantine-campaign-concept-cheerful-friendly-asian-female-physician-doctor-with-clipboard-daily-checkup-standing-white-background_1258-107867.jpg?semt=ais_hybrid&w=740&q=80"
+                             class="card-img-top img-fluid" alt="Enfermera">
+                        <span class="service-category">Salud</span>
+                    </div>
+                    <div class="service-desc p-3">
+                        <h5 class="card-title text-capitalize">Enfermera</h5>
+                        <p class="card-text">Servicio de Enfermera a Domicilio</p>
+                        <p class="price text-capitalize">$500/h</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-muted ms-1">(15)</span>
+                            </div>
+                        </div>
+                        <div class="button pt-2">
+                            <button type="button" class="btn btn-success w-100">Agendar Cita</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 1 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="service-card bg-white h-100 mx-2">
+                    <div class="position-relative">
+                        <img src="https://img.freepik.com/free-photo/healthcare-workers-preventing-virus-quarantine-campaign-concept-cheerful-friendly-asian-female-physician-doctor-with-clipboard-daily-checkup-standing-white-background_1258-107867.jpg?semt=ais_hybrid&w=740&q=80"
+                             class="card-img-top img-fluid" alt="Enfermera">
+                        <span class="service-category">Salud</span>
+                    </div>
+                    <div class="service-desc p-3">
+                        <h5 class="card-title text-capitalize">Enfermera</h5>
+                        <p class="card-text">Servicio de Enfermera a Domicilio</p>
+                        <p class="price text-capitalize">$500/h</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-muted ms-1">(15)</span>
+                            </div>
+                        </div>
+                        <div class="button pt-2">
+                            <button type="button" class="btn btn-success w-100">Agendar Cita</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 1 -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="service-card bg-white h-100 mx-2">
+                    <div class="position-relative">
+                        <img src="https://img.freepik.com/free-photo/healthcare-workers-preventing-virus-quarantine-campaign-concept-cheerful-friendly-asian-female-physician-doctor-with-clipboard-daily-checkup-standing-white-background_1258-107867.jpg?semt=ais_hybrid&w=740&q=80"
+                             class="card-img-top img-fluid" alt="Enfermera">
+                        <span class="service-category">Salud</span>
+                    </div>
+                    <div class="service-desc p-3">
+                        <h5 class="card-title text-capitalize">Enfermera</h5>
+                        <p class="card-text">Servicio de Enfermera a Domicilio</p>
+                        <p class="price text-capitalize">$500/h</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-muted ms-1">(15)</span>
+                            </div>
+                        </div>
+                        <div class="button pt-2">
+                            <button type="button" class="btn btn-success w-100">Agendar Cita</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
