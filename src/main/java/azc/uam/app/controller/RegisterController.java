@@ -57,6 +57,11 @@ public class RegisterController {
             result.rejectValue("tipoUsuario", "error.usuario", "Debe seleccionar un tipo de usuario");
         }
 
+        // Validar selección de tipo de usuario
+        if (usuarioDTO.getGenero() == null) {
+            result.rejectValue("genero", "error.usuario", "Debe seleccionar tu genero");
+        }
+
         if (result.hasErrors()) {
             model.addAttribute("tiposUsuario", TipoUsuario.values());
             return "registro";
