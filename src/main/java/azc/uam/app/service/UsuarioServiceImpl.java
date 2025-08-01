@@ -25,6 +25,7 @@ public class UsuarioServiceImpl implements azc.uam.app.service.persistance.Usuar
         usuario.setNombre(usuarioDTO.getNombre());
         usuario.setCorreo(usuarioDTO.getCorreo());
         usuario.setTipoUsuario(usuarioDTO.getTipoUsuario());
+        usuario.setGenero(usuarioDTO.getGenero());
         usuario.setContrasenia(usuarioDTO.getContrasenia()); // Ya viene encriptada
         usuario.setActivo(true);
 

@@ -62,6 +62,20 @@
                                      th:errors="*{contrasenia}"></div>
                             </div>
 
+                            <!-- Gnero (enum) -->
+                            <div class="form-floating mb-4">
+                                <select class="form-select" id="genero" th:field="*{genero}" required>
+                                    <option value="" disabled selected>Seleccione una opción</option>
+                                    <option th:each="genero : ${T(azc.uam.app.model.enums.Genero).values()}"
+                                            th:value="${genero}"
+                                            th:text="${genero.getGenero()}">
+                                    </option>
+                                </select>
+                                <label for="tipoUsuario">Genero</label>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('genero')}"
+                                     th:errors="*{genero}"></div>
+                            </div>
+
                             <!-- Tipo de usuario (enum) -->
                             <div class="form-floating mb-4">
                                 <select class="form-select" id="tipoUsuario" th:field="*{tipoUsuario}" required>

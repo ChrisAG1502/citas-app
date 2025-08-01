@@ -1,5 +1,6 @@
 package azc.uam.app.dto;
 
+import azc.uam.app.model.enums.Genero;
 import azc.uam.app.model.enums.TipoUsuario;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +26,7 @@ public class UsuarioDTO {
 
     @NotNull(message = "Debe seleccionar un tipo de usuario")
     private TipoUsuario tipoUsuario;
+
+    @NotNull(message = "Debes especificar tu genero")
+    private Genero genero;
 }

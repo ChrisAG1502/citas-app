@@ -1,5 +1,6 @@
 package azc.uam.app.model.entity;
 
+import azc.uam.app.model.enums.Genero;
 import azc.uam.app.model.enums.TipoUsuario;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,6 +28,9 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario; // CLIENTE o PROFESIONAL
+
+    @Enumerated(EnumType.STRING)
+    private Genero genero; // MASCULINO O FEMENINO
 
     @Column(name = "fecha_registro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
