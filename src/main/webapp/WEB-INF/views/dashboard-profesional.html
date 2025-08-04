@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
@@ -21,11 +23,11 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <!-- Versión móvil - opciones visibles -->
             <ul class="navbar-nav me-auto d-lg-none p-0">
-                <li class="nav-item py-0">
-                    <a class="nav-link" href="/user-account">Cuenta</a>
+                <li class="nav-item py-0"> <!-- py-0 elimina padding vertical -->
+                    <a class="nav-link fs-5" href="/user-account">Cuenta</a>
                 </li>
-                <li class="nav-item py-0">
-                    <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                <li class="nav-item py-0"> <!-- py-0 elimina padding vertical -->
+                    <a class="nav-link fs-5" href="/logout">Cerrar Sesión</a>
                 </li>
             </ul>
 
@@ -54,7 +56,8 @@
 </section>
 <section class="new-announce bg-light">
     <div class="d-flex container justify-content-center">
-        <a th:href="@{/profesional/anuncios/nuevo}" class="btn custom-btn-check btn-lg py-3 mt-2 mb-2">Publicar Anuncio</a>
+        <a th:href="@{/dashboard/profesional/anuncios/nuevo}" class="btn custom-btn-check btn-lg py-3 mt-2 mb-2">Publicar
+            Anuncio</a>
         <button type="button" class="btn btn-secondary btn-lg py-3 m-2">Administrar Citas</button>
     </div>
 </section>
@@ -94,7 +97,8 @@
                             <div class="stat-icon text-warning">
                                 <i class="fas fa-star"></i>
                             </div>
-                            <div class="text-capitalize fs-2" th:text="${publicacionMasVista} ?: 'No hay anuncios'"></div>
+                            <div class="text-capitalize fs-2"
+                                 th:text="${publicacionMasVista} ?: 'No hay anuncios'"></div>
                             <div class="stat-label">Anuncio con más vistas</div>
                         </div>
                     </div>
@@ -138,21 +142,47 @@
         <p class="fs-4 text-capitalize">Anuncios Publicados</p>
         <div class="divider"></div>
 
-        <div class="row m-3" th:if="${not #lists.isEmpty(publicaciones)}">
+        <div class="row m-4" th:if="${not #lists.isEmpty(publicaciones)}">
             <div class="col-md-4 mb-4" th:each="publicacion : ${publicaciones}">
                 <div class="card h-100">
-                    <img th:src="@{'/uploads/' + ${publicacion.imagenPrincipal}}" class="card-img-top" alt="Imagen del anuncio">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${publicacion.titulo}"></h5>
-                        <p class="card-text" th:text="${publicacion.descripcion.length() > 100 ? publicacion.descripcion.substring(0, 100) + '...' : publicacion.descripcion}"></p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="badge bg-primary" th:text="${publicacion.categoria.nombre}"></span>
-                            <span class="text-muted" th:text="${#numbers.formatCurrency(publicacion.precio)}"></span>
+                    <div class="position-relative">
+                        <img th:src="@{'/uploads/' + ${publicacion.imagenPrincipal}}"
+                             class="card-img-top"
+                             alt="Imagen del anuncio"
+                             style="height: 180px; object-fit: cover;">
+                        <!-- Botones de acción flotantes -->
+                        <div class="position-absolute top-0 end-0 p-2">
+                            <div class="btn-group" role="group">
+                                <a th:href="@{'/dashboard/profesional/anuncios/editar/' + ${publicacion.id}}"
+                                   class="btn btn-sm btn-outline-primary rounded-circle"
+                                   title="Editar anuncio">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#"
+                                   th:onclick="'confirmarEliminacion(' + ${publicacion.id} + ')'"
+                                   class="btn btn-sm btn-outline-primary rounded-circle"
+                                   title="Eliminar anuncio">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-white">
-                        <small class="text-muted" th:text="${#temporals.format(publicacion.fechaCreacion, 'dd/MM/yyyy')}"></small>
-                        <span class="float-end">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${publicacion.titulo}"></h5>
+                        <p class="card-text"
+                           th:text="${publicacion.descripcion.length() > 100 ?
+                                     publicacion.descripcion.substring(0, 100) + '...' :
+                                     publicacion.descripcion}"></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="service-category" th:text="${publicacion.categoria.nombre}"></span>
+                            <span class="text-muted"
+                                  th:text="'$' + ${#numbers.formatDecimal(publicacion.precio, 1, 2, 'COMMA')}"></span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                        <small class="text-muted"
+                               th:text="${#temporals.format(publicacion.fechaCreacion, 'dd/MM/yyyy')}"></small>
+                        <span>
                             <i class="fas fa-eye"></i>
                             <span th:text="${publicacion.vistas}"></span>
                         </span>
@@ -167,7 +197,9 @@
     </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('pieChart').getContext('2d');
@@ -178,7 +210,7 @@
             datasets: [{
                 data: [
                     [[${vistasPublicacionDestacada}]],
-                    [[${totalVistas - vistasPublicacionDestacada}]],
+                    [[${totalVistas -vistasPublicacionDestacada}]],
                     [[${totalCitas}]]
                 ],
                 backgroundColor: [
@@ -209,6 +241,31 @@
             }
         }
     });
+    function confirmarEliminacion(id) {
+        if (confirm("¿Estás seguro de eliminar este anuncio?")) {
+            fetch(`/dashboard/profesional/anuncios/eliminar/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content // Forma correcta de obtener CSRF
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Recargar la página o actualizar la lista de anuncios
+                        window.location.reload();
+                        // O redirigir al dashboard:
+                        // window.location.href = '/dashboard/profesional';
+                    } else {
+                        return response.text().then(text => { throw new Error(text) });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Error al eliminar el anuncio: " + error.message);
+                });
+        }
+    }
 </script>
 </body>
 </html>

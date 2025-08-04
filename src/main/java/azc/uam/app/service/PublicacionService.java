@@ -124,4 +124,8 @@ public class PublicacionService {
         return publicacionRepository.findByUsuarioCorreoOrderByFechaCreacionDesc(correo);
     }
 
+    public List<Publicacion> getAllPublicaciones() {
+        return publicacionRepository.findAll();
+    }
+
 }

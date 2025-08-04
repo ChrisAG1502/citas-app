@@ -5,57 +5,48 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "citas")
 @Getter
 @Setter
 public class Cita {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaHoraInicio;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profesional_id", nullable = false)
+    private Usuario profesional;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Usuario cliente;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaHoraFin;
+    private LocalDateTime fechaHoraInicio;
 
-    private int duracionMinutos;
+    @Column(nullable = false)
+    private LocalDateTime fechaHoraFin;
+
+    @Column(length = 500)
+    private String motivo;
 
     @Enumerated(EnumType.STRING)
-    private EstadoCita estado = EstadoCita.PENDIENTE;
+    private EstadoCita estado;
 
-    private String tipoServicio;
-    private String ubicacion;
-    private String enlaceVirtual;
+    @Column(name = "fecha_creacion", updatable = false)
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
 
-    @Lob
-    private String notas;
-
-    private Integer calificacionCliente;
-    private Integer calificacionProfesional;
-
-    @Lob
-    private String comentariosCliente;
-
-    @Lob
-    private String comentariosProfesional;
-
-    @Column(updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaCreacion = new Date();
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaActualizacion;
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.fechaActualizacion = new Date();
+    // Constructor
+    public Cita() {
+        this.estado = EstadoCita.PENDIENTE;
     }
 
-    public Cita(){}
+    // Método para verificar superposición de horarios
+    public boolean esSuperpuesta(LocalDateTime inicio, LocalDateTime fin) {
+        return this.fechaHoraInicio.isBefore(fin) && this.fechaHoraFin.isAfter(inicio);
+    }
 }

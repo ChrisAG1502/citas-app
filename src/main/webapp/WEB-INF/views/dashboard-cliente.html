@@ -89,120 +89,37 @@
             <p class="fs-4 text-capitalize">Servicios Destacados</p>
             <div class="divider"></div>
         </div>
-
         <!-- Contenedor modificado -->
-        <div class="row justify-content-center">
-            <!-- Tarjeta 1 -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="row justify-content-center" th:if="${not #lists.isEmpty(publicaciones)}"> >
+            <!-- Tarjetas -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+                 th:each="publicacion : ${publicaciones}">
                 <div class="service-card bg-white h-100 mx-2">
                     <div class="position-relative">
-                        <img src="https://img.freepik.com/free-photo/healthcare-workers-preventing-virus-quarantine-campaign-concept-cheerful-friendly-asian-female-physician-doctor-with-clipboard-daily-checkup-standing-white-background_1258-107867.jpg?semt=ais_hybrid&w=740&q=80"
-                             class="card-img-top img-fluid" alt="Enfermera">
-                        <span class="service-category">Salud</span>
+                        <img th:src="@{'/uploads/' + ${publicacion.imagenPrincipal}}"
+                             class="card-img-top img-fluid" alt="Imagen del servicio">
+                        <span class="service-category" th:text="${publicacion.categoria.nombre}">Categoría</span>
                     </div>
                     <div class="service-desc p-3">
-                        <h5 class="card-title text-capitalize">Enfermera</h5>
-                        <p class="card-text">Servicio de Enfermera a Domicilio</p>
-                        <p class="price text-capitalize">$500/h</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="text-muted ms-1">(15)</span>
-                            </div>
-                        </div>
-                        <div class="button pt-3">
-                            <button type="button" class="btn btn-success w-100">Agendar Cita</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <h5 class="card-title" th:text="${publicacion.titulo}">Título</h5>
 
-            <!-- Tarjeta 1 -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="service-card bg-white h-100 mx-2">
-                    <div class="position-relative">
-                        <img src="https://img.freepik.com/free-photo/healthcare-workers-preventing-virus-quarantine-campaign-concept-cheerful-friendly-asian-female-physician-doctor-with-clipboard-daily-checkup-standing-white-background_1258-107867.jpg?semt=ais_hybrid&w=740&q=80"
-                             class="card-img-top img-fluid" alt="Enfermera">
-                        <span class="service-category">Salud</span>
-                    </div>
-                    <div class="service-desc p-3">
-                        <h5 class="card-title text-capitalize">Enfermera</h5>
-                        <p class="card-text">Servicio de Enfermera a Domicilio</p>
-                        <p class="price text-capitalize">$500/h</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="text-muted ms-1">(15)</span>
-                            </div>
-                        </div>
-                        <div class="button pt-3">
-                            <button type="button" class="btn btn-success w-100">Agendar Cita</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <p class="card-text"
+                           th:text="${#strings.length(publicacion.descripcion) > 100 ?
+                             #strings.substring(publicacion.descripcion, 0, 100) + '...' :
+                             publicacion.descripcion}">
+                        </p>
 
-            <!-- Tarjeta 1 -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="service-card bg-white h-100 mx-2">
-                    <div class="position-relative">
-                        <img src="https://img.freepik.com/free-photo/healthcare-workers-preventing-virus-quarantine-campaign-concept-cheerful-friendly-asian-female-physician-doctor-with-clipboard-daily-checkup-standing-white-background_1258-107867.jpg?semt=ais_hybrid&w=740&q=80"
-                             class="card-img-top img-fluid" alt="Enfermera">
-                        <span class="service-category">Salud</span>
-                    </div>
-                    <div class="service-desc p-3">
-                        <h5 class="card-title text-capitalize">Enfermera</h5>
-                        <p class="card-text">Servicio de Enfermera a Domicilio</p>
-                        <p class="price text-capitalize">$500/h</p>
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="text-muted ms-1">(15)</span>
-                            </div>
+                            <span class="service-category" th:text="${publicacion.categoria.nombre}">Categoría</span>
+                            <span class="text-muted"
+                                  th:text="'$' + ${#numbers.formatDecimal(publicacion.precio, 1, 2, 'COMMA')}">Precio</span>
                         </div>
-                        <div class="button pt-3">
-                            <button type="button" class="btn btn-success w-100">Agendar Cita</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Tarjeta 1 -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="service-card bg-white h-100 mx-2">
-                    <div class="position-relative">
-                        <img src="https://img.freepik.com/free-photo/healthcare-workers-preventing-virus-quarantine-campaign-concept-cheerful-friendly-asian-female-physician-doctor-with-clipboard-daily-checkup-standing-white-background_1258-107867.jpg?semt=ais_hybrid&w=740&q=80"
-                             class="card-img-top img-fluid" alt="Enfermera">
-                        <span class="service-category">Salud</span>
-                    </div>
-                    <div class="service-desc p-3">
-                        <h5 class="card-title text-capitalize">Enfermera</h5>
-                        <p class="card-text">Servicio de Enfermera a Domicilio</p>
-                        <p class="price text-capitalize">$500/h</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="text-muted ms-1">(15)</span>
-                            </div>
-                        </div>
-                        <div class="button pt-2">
-                            <button type="button" class="btn btn-success w-100">Agendar Cita</button>
+                        <div class="button pt-3">
+                            <a th:href="@{'/dashboard/cliente/publicacion/' + ${publicacion.id}}"
+                               class="btn btn-success w-100">
+                                Agendar Cita
+                            </a>
                         </div>
                     </div>
                 </div>

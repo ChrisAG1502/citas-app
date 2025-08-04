@@ -4,6 +4,7 @@ import azc.uam.app.handler.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,13 @@ public class WebSecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")
                         .permitAll()
+                )
+                // Configuración CSRF para DELETE
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .ignoringRequestMatchers(
+                                new AntPathRequestMatcher("/dashboard/profesional/anuncios/eliminar/**", "DELETE")
+                        )
                 );
 
         return http.build();

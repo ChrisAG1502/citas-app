@@ -4,6 +4,8 @@ import azc.uam.app.dto.PublicacionDTO;
 import azc.uam.app.model.entity.Publicacion;
 import azc.uam.app.service.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/profesional/anuncios")
+@RequestMapping("/dashboard/profesional/anuncios")
 public class PublicacionProfesionalController {
 
     @Autowired
@@ -59,11 +61,11 @@ public class PublicacionProfesionalController {
             Publicacion publicacion = publicacionService.crearPublicacion(publicacionDTO, correoUsuario);
 
             redirectAttributes.addFlashAttribute("success", "Anuncio creado exitosamente!");
-            return "redirect:/profesional/anuncios/" + publicacion.getId();
+            return "redirect:/dashboard/profesional";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al guardar el anuncio: " + e.getMessage());
             System.out.println("Error al guardar el anuncio: " + e.getMessage());
-            return "redirect:/profesional/anuncios/nuevo";
+            return "redirect:/dashboard/profesional/anuncios/nuevo";
         }
     }
 
@@ -71,9 +73,21 @@ public class PublicacionProfesionalController {
     public String verAnuncio(@PathVariable Long id, Model model) {
         Publicacion publicacion = publicacionService.obtenerPublicacion(id);
         if(publicacion == null) {
-            return "redirect:/profesional-dashboard";
+            return "redirect:/dashboard/profesional";
         }
         model.addAttribute("publicacion", publicacion);
         return "detalle-anuncio";
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    @ResponseBody // Añade esta anotación para que devuelva una respuesta HTTP
+    public ResponseEntity<String> eliminarPublicacion(@PathVariable Long id) {
+        try {
+            publicacionService.eliminarPublicacion(id);
+            return ResponseEntity.ok("Anuncio eliminado correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al eliminar el anuncio: " + e.getMessage());
+        }
     }
 }
