@@ -40,3 +40,4 @@ build/
 #Local
 application-*.properties
 !application.properties
+/src/main/resources/uploads/

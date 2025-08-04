@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -37,6 +39,9 @@ public class Usuario {
     private Date fechaRegistro = new Date();
 
     private boolean activo = true;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Publicacion> publicaciones = new ArrayList<>();
 
     public Usuario() {}
 }

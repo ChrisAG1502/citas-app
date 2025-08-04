@@ -1,6 +1,9 @@
 package azc.uam.app.model.entity;
 
+import azc.uam.app.model.enums.Categoria;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,8 +11,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
-@SuppressWarnings("SpellCheckingInspection") //Avoid typos
+@SuppressWarnings("SpellCheckingInspection") //Avoid typos warnings
 public class Publicacion {
 
     @Id
@@ -33,9 +38,6 @@ public class Publicacion {
     @Column(name = "imagen_url", length = 500)
     private List<String> imagenesAdicionales = new ArrayList<>();
 
-    @Column(length = 500)
-    private String categoria;
-
     @CreationTimestamp
     @Column(name = "fecha_creacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;
@@ -49,6 +51,16 @@ public class Publicacion {
 
     @Column(name = "vistas", nullable = false)
     private Long vistas = 0L;
+
+    @Column(name = "precio", nullable = false)
+    private Double precio;
+
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
     public String getPrimeraImagen() {
         return imagenPrincipal;

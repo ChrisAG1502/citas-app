@@ -301,13 +301,48 @@ html {
     width: 100%;
 }
 
-.card-text{
+.card-text {
     height: 4rem;
 }
 
+.green-section {
+    background-color: #28a745;
+}
 
+.stat-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
 
+.stat-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
 
+.stat-label {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 100%;
+}
+
+.custom-btn-check{
+    background-color: green;
+    color: white;
+}
+
+.custom-btn-check:hover{
+    background-color: rgba(1, 87, 1, 0.797) ;
+    color: white;
+}
 
 footer {
     flex-shrink: 0;
